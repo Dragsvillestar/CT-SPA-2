@@ -180,6 +180,7 @@ const shoppingBy = document.getElementById("shopping-by");
                               <input type="number" id="maxPrice" value="" min="0" step="100" style="width: 100px;" required>
                             </div>                                        
                             <button id="priceRangeUpdate" class="btn btn-primary btn-sm m-2 stylish" style="background-color: #a1c255;color: #184733;">Update results...</button>
+                            <button id="priceRangeReset" class="btn btn-primary btn-sm m-2 stylish" style="background-color: red;color: white;">Reset</button>
                           </div>
                     </div>                                
                 </div>
@@ -318,6 +319,10 @@ function pianoFilter() {
     // Start with the full data set
     let filteredData = data;
 
+    if (priceDataIf) {
+      filteredData = priceData;
+    }
+
     // Apply piano type filter if selected
     if (pianoType.select) {
       filteredData = filteredData.filter(piano => piano.type === pianoType.type);
@@ -358,23 +363,6 @@ function clearPrices () {
   document.getElementById("maxPrice").value = "";
  
 }
-if (filterType === "piano") {
-  pianoType.select = true;
-  pianoType.type = filterValue;
-  document.getElementById("pianoType").style.display = "flex";
-  document.getElementById("pianoType").style.justifyContent = "space-between";
-  document.getElementById("currentType").textContent = filterValue;
-  pianoFilter();
-  updateShoppingByVisibility();
-  clearPrices();
-} else if (filterType === "maker") {
-  makerType.select = true;
-  makerType.maker = filterValue;
-} else if (filterType === "condition") {
-  conditionType.select = true;
-  conditionType.condition = filterValue;
-}
-
 
 document.getElementById("grandPiano").addEventListener("click", () => {
   pianoType.select = true;
@@ -384,7 +372,6 @@ document.getElementById("grandPiano").addEventListener("click", () => {
   document.getElementById("pianoType").style.justifyContent = "space-between";
   document.getElementById("currentType").textContent = "Grand Piano";
   updateShoppingByVisibility();
-  clearPrices();
 });
 
 document.getElementById("uprightPiano").addEventListener("click", () => {
@@ -395,7 +382,6 @@ document.getElementById("uprightPiano").addEventListener("click", () => {
   document.getElementById("pianoType").style.justifyContent = "space-between";
   document.getElementById("currentType").textContent = "Upright Piano";
   updateShoppingByVisibility();
-  clearPrices();
 });
 
 document.getElementById("digitalPiano").addEventListener("click", () => {
@@ -406,7 +392,6 @@ document.getElementById("digitalPiano").addEventListener("click", () => {
   document.getElementById("pianoType").style.justifyContent = "space-between";
   document.getElementById("currentType").textContent = "Digital Piano";
   updateShoppingByVisibility();
-  clearPrices();
 });
 
 document.querySelectorAll(".brand").forEach(brandEl => {
@@ -419,7 +404,7 @@ document.querySelectorAll(".brand").forEach(brandEl => {
     makerFilterElem.style.justifyContent = "space-between";
     document.getElementById("currentMaker").textContent = makerType.maker;
     updateShoppingByVisibility();
-    clearPrices();
+
   });
 });
 
@@ -434,7 +419,6 @@ document.getElementById("new").addEventListener("click", () => {
   conditionFilterElem.style.justifyContent = "space-between";
   document.getElementById("currentCondition").textContent = "New";
   updateShoppingByVisibility();
-  clearPrices();
 });
 
 document.getElementById("used").addEventListener("click", () => {
@@ -446,7 +430,6 @@ document.getElementById("used").addEventListener("click", () => {
   conditionFilterElem.style.justifyContent = "space-between";
   document.getElementById("currentCondition").textContent = "Used";
   updateShoppingByVisibility();
-  clearPrices();
 });
 
 document.getElementById("conditionClose").addEventListener("click", () => {
@@ -455,7 +438,6 @@ document.getElementById("conditionClose").addEventListener("click", () => {
   pianoFilter();
   document.getElementById("conditionFilter").style.display = "none";
   updateShoppingByVisibility();
-  clearPrices();
 });
 
 // Assuming pianoData is your global (filtered) data array and itemsPerPage is defined
@@ -465,7 +447,6 @@ document.getElementById("pianoTypeClose").addEventListener("click", () => {
   pianoFilter();
   document.getElementById("pianoType").style.display = "none";
   updateShoppingByVisibility();  
-  clearPrices();
 });
 
 document.getElementById("makerClose").addEventListener("click", () => {
@@ -474,8 +455,10 @@ document.getElementById("makerClose").addEventListener("click", () => {
   pianoFilter();
   document.getElementById("makerFilter").style.display = "none";
   updateShoppingByVisibility();
-  clearPrices();
 });
+
+document.getElementById("priceRangeReset").addEventListener("click",clearPrices);
+
 
 const sortSelect = document.getElementById("sort");
   
